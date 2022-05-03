@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override")
 
 const Product = require("./models/product");
+const { findByIdAndDelete } = require("./models/product");
 
 mongoose.connect("mongodb://localhost:27017/bassPlass")
     .then(() => {
@@ -61,6 +62,14 @@ app.put("/products/:id", async (req, res) => {
     //res.send("PUT");
     res.redirect(`/products/${updatedProduct._id}`);
     //console.log(req.body);
+})
+
+app.delete("/products/:id", async (req, res) => {
+    //res.send("FDASFSD");
+    const {id} = req.params;
+    const deletion = await Product.findByIdAndDelete(id);
+    //console.log(deletion);
+    res.redirect("/products");
 })
 
 const port = 3000;
